@@ -1,15 +1,15 @@
 package ${basePackage}.${controllerPackage}Impl;
 
 import ${basePackage}.${controllerPackage}.${doNameUpperCamel}Controller;
-import ${basePackage}.${dtoPackage}.${doNameUpperCamel}DTO;
 import ${basePackage}.${servicePackage}.${doNameUpperCamel}Service;
 import ${basePackage}.core.ApiResponse;
+import ${basePackage}.entity.${doNameUpperCamel};
 
-import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -28,18 +28,18 @@ public class ${doNameUpperCamel}ControllerImpl implements ${doNameUpperCamel}Con
     @PostMapping("/add")
     @ApiOperation(value = "添加${tableComment}", notes = "添加${tableComment}")
     @Override
-    public String add(@RequestBody ${doNameUpperCamel}DTO ${doNameUpperCamel ? uncap_first}DTO) {
-        ${doNameUpperCamel ? uncap_first}Service.insert(${doNameUpperCamel ? uncap_first}DTO);
+    public ApiResponse add(@RequestBody ${doNameUpperCamel} ${doNameUpperCamel ? uncap_first}) {
+        ${doNameUpperCamel ? uncap_first}Service.insert(${doNameUpperCamel ? uncap_first});
         return ApiResponse.success();
     }
 
     @DeleteMapping("/delete/{id}")
     @ApiOperation(value = "删除${tableComment}", notes = "删除${tableComment}")
 	@ApiImplicitParams({
-		@ApiImplicitParam(required = true, name = "id", value = "主键ID", paramType = "path", dataType = "String")
+		@ApiImplicitParam(required = true, name = "id", value = "主键ID", paramType = "path", dataType = "long")
 	})
     @Override
-    public String delete(@PathVariable("id") String id) {
+    public ApiResponse delete(@PathVariable("id") long id) {
         ${doNameUpperCamel ? uncap_first}Service.delete(id);
         return ApiResponse.success();
     }
@@ -47,20 +47,20 @@ public class ${doNameUpperCamel}ControllerImpl implements ${doNameUpperCamel}Con
     @PutMapping("/update")
     @ApiOperation(value = "修改${tableComment}", notes = "修改${tableComment}")
     @Override
-    public String update(@RequestBody ${doNameUpperCamel}DTO ${doNameUpperCamel ? uncap_first}DTO) {
-        ${doNameUpperCamel ? uncap_first}Service.update(${doNameUpperCamel ? uncap_first}DTO);
+    public ApiResponse update(@RequestBody ${doNameUpperCamel} ${doNameUpperCamel ? uncap_first}) {
+        ${doNameUpperCamel ? uncap_first}Service.update(${doNameUpperCamel ? uncap_first});
         return ApiResponse.success();
     }
 
     @GetMapping("/detail/{id}")
     @ApiOperation(value = "查询${tableComment}详情", notes = "查询${tableComment}详情")
 	@ApiImplicitParams({
-		@ApiImplicitParam(required = true, name = "id", value = "主键ID", paramType = "path", dataType = "String")
+		@ApiImplicitParam(required = true, name = "id", value = "主键ID", paramType = "path", dataType = "long")
 	})
     @Override
-    public String detail(@PathVariable("id") String id) {
-        ${doNameUpperCamel}DTO ${doNameUpperCamel ? uncap_first}DTO = ${doNameUpperCamel ? uncap_first}Service.getById(id);
-        return ApiResponse.success(${doNameUpperCamel ? uncap_first}DTO);
+    public ApiResponse detail(@PathVariable("id") long id) {
+        ${doNameUpperCamel} ${doNameUpperCamel ? uncap_first} = ${doNameUpperCamel ? uncap_first}Service.getById(id);
+        return ApiResponse.success(${doNameUpperCamel ? uncap_first});
     }
 
     @GetMapping("/listPage")
@@ -70,8 +70,8 @@ public class ${doNameUpperCamel}ControllerImpl implements ${doNameUpperCamel}Con
 		@ApiImplicitParam(required = true, name = "pageNum", value = "第几页", paramType = "query", dataType = "int")
 	})
     @Override
-    public String listPage(@RequestParam("pageSize") int pageSize,@RequestParam("pageNum") int pageNum) {
-        PageInfo<${doNameUpperCamel}DTO> p = ${doNameUpperCamel ? uncap_first}Service.findPage(pageSize,pageNum);
+    public ApiResponse listPage(@RequestParam("pageSize") int pageSize,@RequestParam("pageNum") int pageNum) {
+        Page<${doNameUpperCamel}> p = ${doNameUpperCamel ? uncap_first}Service.findPage(pageSize,pageNum);
         return ApiResponse.success(p);
     }
 }

@@ -1,19 +1,21 @@
 package com.company.controller;
 
-import java.util.List;
-
-import com.company.project.core.ApiResponse;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
 import com.company.domain.Column;
 import com.company.domain.Table;
+import com.company.project.core.ApiResponse;
 import com.company.properties.DatasourceProperties;
 import com.company.properties.GeneratorProperties;
 import com.company.service.GeneratorService;
 import com.company.utils.CodeGenerateUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 @Controller
 public class GeneratorController {
@@ -49,15 +51,15 @@ public class GeneratorController {
 
 	@PostMapping(value = "generate")
 	@ResponseBody
-	public String generate(@RequestBody GeneratorProperties generatorProperties) throws Exception {
+	public ApiResponse generate(@RequestBody GeneratorProperties generatorProperties) throws Exception {
 		List<Column> columns = generatorService.getColumns(datasourceProperties.getDatabaseType(), generatorProperties.getSchemaName(), generatorProperties.getTableName());
-		codeGenerateUtils.generateDoFile(columns, generatorProperties);
-		codeGenerateUtils.generateDtoFile(columns, generatorProperties);
-		codeGenerateUtils.generateQoFile(columns, generatorProperties);
+		//codeGenerateUtils.generateDoFile(columns, generatorProperties);
+		//codeGenerateUtils.generateDtoFile(columns, generatorProperties);
+		//codeGenerateUtils.generateQoFile(columns, generatorProperties);
 		codeGenerateUtils.generateControllerFile(columns, generatorProperties);
 		codeGenerateUtils.generateServiceFile(columns, generatorProperties);
 		codeGenerateUtils.generateDaoFile(columns, generatorProperties);
-		codeGenerateUtils.generateMapperFile(columns, generatorProperties);
+		//codeGenerateUtils.generateMapperFile(columns, generatorProperties);
 		codeGenerateUtils.generateControllerImplFile(columns, generatorProperties);
 		codeGenerateUtils.generateServiceImplFile(columns, generatorProperties);
 		return ApiResponse.success();

@@ -1,12 +1,10 @@
 package ${basePackage}.${servicePackage}Impl;
 
-import ${basePackage}.${daoPackage}.${doNameUpperCamel}DAO;
-import ${basePackage}.${doPackage}.${doNameUpperCamel};
-import ${basePackage}.${dtoPackage}.${doNameUpperCamel}DTO;
+import ${basePackage}.${daoPackage}.${doNameUpperCamel}Dao;
+import ${basePackage}.entity.${doNameUpperCamel};
 import ${basePackage}.${servicePackage}.${doNameUpperCamel}Service;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import org.dozer.DozerBeanMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.querydsl.QPageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,63 +19,44 @@ import java.util.List;
 @Service
 public class ${doNameUpperCamel}ServiceImpl implements ${doNameUpperCamel}Service{
     @Resource
-    private ${doNameUpperCamel}Dao<${doNameUpperCamel}> ${doNameUpperCamel ? uncap_first}Dao;
-    @Resource
-	private DozerBeanMapper dozerBeanMapper;
+    private ${doNameUpperCamel}Dao ${doNameUpperCamel ? uncap_first}Dao;
 
     @Transactional(readOnly = true)
     @Override
-    public List<${doNameUpperCamel}DTO> findAll(){
-        //todo
-        return null;
-    }
-    @Transactional(readOnly = true)
-    @Override
-    public List<${doNameUpperCamel}DTO> findList(${doNameUpperCamel}DTO ${doNameUpperCamel ? uncap_first}DTO){
-        //todo
-        return null;
-    }
-    @Transactional(readOnly = true)
-    @Override
-    public ${doNameUpperCamel}DTO getById(String id){
-        //todo
-        return null;
+    public List<${doNameUpperCamel}> findAll(){
+        return ${doNameUpperCamel ? uncap_first}Dao.findAll();
     }
 
     @Transactional(readOnly = true)
     @Override
-    public ${doNameUpperCamel}DTO get(${doNameUpperCamel}DTO ${doNameUpperCamel ? uncap_first}DTO){
-        //todo
-        return null;
+    public ${doNameUpperCamel} getById(long id){
+        return ${doNameUpperCamel ? uncap_first}Dao.getOne(id);
+    }
+
+
+
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, readOnly = false)
+    @Override
+    public void insert(${doNameUpperCamel} ${doNameUpperCamel ? uncap_first}){
+        ${doNameUpperCamel ? uncap_first}Dao.save(${doNameUpperCamel ? uncap_first});
     }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, readOnly = false)
     @Override
-    public int insert(${doNameUpperCamel}DTO ${doNameUpperCamel ? uncap_first}DTO){
-        //todo
-        return 1;
-    }
-
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, readOnly = false)
-        @Override
-        public int update(${doNameUpperCamel}DTO ${doNameUpperCamel ? uncap_first}DTO){
-        //todo
-        return 1;
+    public void update(${doNameUpperCamel} ${doNameUpperCamel ? uncap_first}){
+        ${doNameUpperCamel ? uncap_first}Dao.save(${doNameUpperCamel ? uncap_first});
     }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, readOnly = false)
     @Override
-    public void delete(String id){
+    public void delete(long id){
         ${doNameUpperCamel ? uncap_first}Dao.delete(id);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public PageInfo<${doNameUpperCamel}DTO> findPage(int pageNum,int pageSize){
-        //todo
-        PageHelper.startPage(pageNum, pageSize);
-        List<${doNameUpperCamel}> list  = ${doNameUpperCamel ? uncap_first}Dao.findPage();
-        return null;
+    public Page<${doNameUpperCamel}> findPage(int pageNum,int pageSize){
+        return ${doNameUpperCamel ? uncap_first}Dao.findAll(new QPageRequest(pageNum,pageSize));
     }
 
 }

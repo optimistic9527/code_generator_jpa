@@ -1,6 +1,5 @@
 package com.company.project.core;
 
-import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -59,46 +58,41 @@ public class ApiResponse implements Serializable {
 		this.msg = msg;
 	}
 
-	public static String success() {
+	public static ApiResponse success() {
 		ApiResponse result = new ApiResponse();
 		result.setResultCode(ResultCode.SUCCESS);
-		return result.toString();
+		return result;
 	}
 
-	public static String success(Object data) {
+	public static ApiResponse success(Object data) {
 		ApiResponse result = new ApiResponse();
 		result.setResultCode(ResultCode.SUCCESS);
 		result.setData(data);
-		return result.toString();
+		return result;
 	}
 
-	public static String failure(ResultCode resultCode) {
+	public static ApiResponse failure(ResultCode resultCode) {
 		ApiResponse result = new ApiResponse();
 		result.setResultCode(resultCode);
-		return result.toString();
+		return result;
 	}
 
-	public static String failure(String msg) {
+	public static ApiResponse failure(String msg) {
 		ApiResponse result = new ApiResponse();
 		result.setCode(-1);
 		result.setMsg(msg);
-		return result.toString();
+		return result;
 	}
 
-	public static String failure(ResultCode resultCode, Object data) {
+	public static ApiResponse failure(ResultCode resultCode, Object data) {
 		ApiResponse result = new ApiResponse();
 		result.setResultCode(resultCode);
 		result.setData(data);
-		return result.toString();
+		return result;
 	}
 
 	public void setResultCode(ResultCode code) {
 		this.code = code.code();
 		this.msg = code.message();
-	}
-
-	@Override
-	public String toString() {
-		return JSONObject.toJSONString(this);
 	}
 }

@@ -4,7 +4,7 @@ import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @SpringBootConfiguration
-@ConfigurationProperties(prefix = "spring.datasource")
+@ConfigurationProperties(prefix = "generator")
 public class DatasourceProperties {
     // 数据库连接地址
     private String url;

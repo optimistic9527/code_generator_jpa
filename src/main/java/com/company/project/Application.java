@@ -2,20 +2,16 @@ package com.company.project;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
+@EnableJpaRepositories
+@EnableTransactionManagement
 public class Application
-//extends SpringBootServletInitializer //打war包需要
 {
-    public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
-    }
-
-    // 打war包需要
-    /*@Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-        builder.sources(Application.class);
-        return super.configure(builder);
-    }*/
+	public static void main(String[] args) {
+		SpringApplication.run(Application.class, args);
+	}
 }
 

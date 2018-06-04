@@ -18,65 +18,6 @@ import java.util.List;
 @Component
 public class CodeGenerateUtils {
 
-	public void generateDoFile(List<Column> columns, GeneratorProperties gp) throws Exception {
-		final String suffix = ".java";
-		final String path = gp.getProjectPath() + gp.getJavaPath() +
-				packageConvertPath(gp.getBasePackage() + "." + gp.getDoPackage()) + gp.getDoNameUpperCamel() + suffix;
-		final String templateName = "do.ftl";
-		File mapperFile = new File(path);
-		JSONObject data = (JSONObject) JSONObject.toJSON(gp);
-		data.put("hasDate", false);
-		data.put("hasBigDecimal", false);
-		System.out.println(columns.toString());
-		for (Column c : columns) {
-			c.setDoField(CodeGenerateUtils.toHump(c.getColumnName().toLowerCase()));
-			if (c.getColumnType().equals("date") || c.getColumnType().equals("datetime") || c.getColumnType().equals("timestamp")) {
-				data.put("hasDate", true);
-			}
-			if (c.getColumnType().equals("decimal") || c.getColumnType().equals("numeric")) {
-				data.put("hasBigDecimal", true);
-			}
-		}
-		data.put("columns", columns);
-		generateFileByTemplate(templateName, mapperFile, data);
-	}
-
-	public void generateDtoFile(List<Column> columns, GeneratorProperties gp) throws Exception {
-		final String suffix = "DTO.java";
-		final String path = gp.getProjectPath() + gp.getJavaPath() +
-				packageConvertPath(gp.getBasePackage() + "." + gp.getDtoPackage()) + gp.getDoNameUpperCamel() + suffix;
-		final String templateName = "dto.ftl";
-		File mapperFile = new File(path);
-		JSONObject data = (JSONObject) JSONObject.toJSON(gp);
-		data.put("hasDate", false);
-		data.put("hasBigDecimal", false);
-		for (Column c : columns) {
-			c.setDoField(CodeGenerateUtils.toHump(c.getColumnName().toLowerCase()));
-			if (c.getColumnType().equals("date") || c.getColumnType().equals("datetime") || c.getColumnType().equals("timestamp")) {
-				data.put("hasDate", true);
-			}
-			if (c.getColumnType().equals("decimal") || c.getColumnType().equals("numeric")) {
-				data.put("hasBigDecimal", true);
-			}
-		}
-		data.put("columns", columns);
-		generateFileByTemplate(templateName, mapperFile, data);
-	}
-
-	public void generateQoFile(List<Column> columns, GeneratorProperties gp) throws Exception {
-		final String suffix = "QO.java";
-		final String path = gp.getProjectPath() + gp.getJavaPath() +
-				packageConvertPath(gp.getBasePackage() + "." + gp.getQoPackage()) + gp.getDoNameUpperCamel() + suffix;
-		final String templateName = "qo.ftl";
-		File mapperFile = new File(path);
-		JSONObject data = (JSONObject) JSONObject.toJSON(gp);
-		for (Column c : columns) {
-			c.setDoField(CodeGenerateUtils.toHump(c.getColumnName().toLowerCase()));
-		}
-		data.put("columns", columns);
-		generateFileByTemplate(templateName, mapperFile, data);
-	}
-
 	public void generateControllerImplFile(List<Column> columns, GeneratorProperties gp) throws Exception {
 		final String suffix = "ControllerImpl.java";
 		final String path = gp.getProjectPath() + gp.getJavaPath() +
@@ -126,21 +67,6 @@ public class CodeGenerateUtils {
 		generateFileByTemplate(templateName, mapperFile, data);
 	}
 
-
-	public void generateMapperFile(List<Column> columns, GeneratorProperties gp) throws Exception {
-		final String suffix = "Mapper.xml";
-		final String path = gp.getProjectPath() + gp.getResourcesPath() + packageConvertPath(gp.getMapperDictionary()) + gp.getDoNameUpperCamel() + suffix;
-		final String templateName = "mapper.ftl";
-		File mapperFile = new File(path);
-		JSONObject data = (JSONObject) JSONObject.toJSON(gp);
-		for (Column c : columns) {
-			c.setDoField(CodeGenerateUtils.toHump(c.getColumnName().toLowerCase()));
-		}
-		data.put("columns", columns);
-		generateFileByTemplate(templateName, mapperFile, data);
-
-	}
-
 	public void generateFileByTemplate(final String templateName, File file, Object data) throws Exception {
 		Template template = getTemplate(templateName);
 		Files.createParentDirs(file);
@@ -149,7 +75,7 @@ public class CodeGenerateUtils {
 		template.process(data, out);
 	}
 
-	public static String toHump(String str) {
+	private static String toHump(String str) {
 		StringBuffer sb = new StringBuffer();
 		String[] arr = str.split("_");
 		for (int i = 0; i < arr.length; i++) {
@@ -170,5 +96,18 @@ public class CodeGenerateUtils {
 		cfg.setDefaultEncoding("UTF-8");
 		cfg.setTemplateExceptionHandler(TemplateExceptionHandler.IGNORE_HANDLER);
 		return cfg.getTemplate(templateName);
+	}
+
+
+	private void check(List<Column> columns,JSONObject data){
+		columns.forEach(c -> {
+			c.setDoField(CodeGenerateUtils.toHump(c.getColumnName().toLowerCase()));
+			if (c.getColumnType().equals("date") || c.getColumnType().equals("datetime") || c.getColumnType().equals("timestamp")) {
+				data.put("hasDate", true);
+			}
+			if (c.getColumnType().equals("decimal") || c.getColumnType().equals("numeric")) {
+				data.put("hasBigDecimal", true);
+			}
+		});
 	}
 }

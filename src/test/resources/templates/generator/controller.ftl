@@ -1,6 +1,7 @@
 package ${basePackage}.${controllerPackage};
 
-import ${basePackage}.${dtoPackage}.${doNameUpperCamel}DTO;
+import ${basePackage}.entity.${doNameUpperCamel};
+import com.company.project.core.ApiResponse;
 /**
 * ${tableComment}Controller
 * @author ${author}
@@ -9,31 +10,31 @@ import ${basePackage}.${dtoPackage}.${doNameUpperCamel}DTO;
 public interface ${doNameUpperCamel}Controller {
     /**
     * 添加${doNameUpperCamel}
-    * @param ${doNameUpperCamel ? uncap_first}DTO
+    * @param ${doNameUpperCamel ? uncap_first}
     * @return
     */
-    String add(${doNameUpperCamel}DTO ${doNameUpperCamel ? uncap_first}DTO);
+    ApiResponse add(${doNameUpperCamel} ${doNameUpperCamel ? uncap_first});
 
     /**
     *  根据id删除${doNameUpperCamel}
     * @param id
     * @return
     */
-    String delete(String id);
+    ApiResponse delete(long id);
 
     /**
     * 修改${doNameUpperCamel}
-    * @param ${doNameUpperCamel ? uncap_first}DTO
+    * @param ${doNameUpperCamel ? uncap_first}
     * @return
     */
-    String update(${doNameUpperCamel}DTO ${doNameUpperCamel ? uncap_first}DTO);
+    ApiResponse update(${doNameUpperCamel} ${doNameUpperCamel ? uncap_first});
 
     /**
     * 根据id获取${doNameUpperCamel}信息
     * @param id
     * @return
     */
-    String detail(String id);
+    ApiResponse detail(long id);
 
     /**
     * 分页
@@ -41,5 +42,5 @@ public interface ${doNameUpperCamel}Controller {
     * @param pageNum 显示多少
     * @return
     */
-    String listPage(int pageSize,int pageNum);
+    ApiResponse listPage(int pageSize,int pageNum);
 }
